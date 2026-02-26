@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪤 Mousetrap</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        #lottie-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 2rem;
+        }
+
+        .fallback-emoji {
+            font-size: 200px;
+            line-height: 1;
+            display: none;
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 600px) {
+            #lottie-container {
+                width: 200px;
+                height: 200px;
+            }
+            .fallback-emoji {
+                font-size: 150px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="lottie-container">
+            <div class="fallback-emoji">🪤</div>
+        </div>
+
+    </div>
+
+    <script>
+        // Try to load Lottie animation
+        try {
+            const animation = lottie.loadAnimation({
+                container: document.getElementById('lottie-container'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1faa4/lottie.json'
+            });
+
+            animation.addEventListener('error', function() {
+                // If Lottie fails, show fallback emoji
+                document.getElementById('lottie-container').querySelector('.fallback-emoji').style.display = 'block';
+                document.querySelector('#lottie-container > svg')?.remove();
+            });
+        } catch (e) {
+            // Fallback to static emoji
+            document.getElementById('lottie-container').querySelector('.fallback-emoji').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
