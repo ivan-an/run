@@ -1,84 +1,306 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🪤 Mousetrap</title>
+    <title>🪤 The Maze</title>
+    
+    <!-- Подключаем шрифт Work Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Lottie player -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: url('background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: #fff;
+        line-height: 1.8;
+        padding: 2rem 1rem;
+    }
 
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
+    /* Затемнение фона для читаемости текста */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: -1;
+    }
 
+    .container {
+        text-align: center;
+        max-width: 850px;
+        width: 100%;
+    }
+
+    #lottie-container {
+        width: 280px;
+        height: 280px;
+        margin: 0 auto 2.5rem;
+        opacity: 0.95;
+        filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
+    }
+
+    #lottie-container-clover {
+        width: 260px;
+        height: 260px;
+        margin: 3rem auto 2.5rem;
+        opacity: 0.9;
+        filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
+    }
+
+    .fallback-emoji {
+        font-size: 180px;
+        line-height: 1;
+        display: none;
+    }
+
+    .text-block {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 2.5rem 3rem;
+        margin-top: 1rem;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+
+    .text-block p {
+        font-weight: 400;
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+        text-align: justify;
+        text-justify: inter-word;
+        color: rgba(255, 255, 255, 0.98);
+        text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    /* Drop cap для ПЕРВОГО абзаца в первом блоке */
+    .text-block:first-of-type p:first-of-type::first-letter {
+        font-size: 4rem;
+        font-weight: 600;
+        float: left;
+        line-height: 0.8;
+        padding-right: 0.5rem;
+        padding-top: 0.3rem;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* Drop cap для ВТОРОГО абзаца в первом блоке */
+    .text-block:first-of-type p:nth-of-type(2)::first-letter {
+        font-size: 3.5rem;
+        font-weight: 600;
+        float: left;
+        line-height: 0.8;
+        padding-right: 0.5rem;
+        padding-top: 0.3rem;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Drop cap для ПЕРВОГО абзаца во втором блоке */
+    .text-block:nth-of-type(2) p:first-of-type::first-letter {
+        font-size: 4rem;
+        font-weight: 600;
+        float: left;
+        line-height: 0.8;
+        padding-right: 0.5rem;
+        padding-top: 0.3rem;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* Drop cap для ВТОРОГО абзаца во втором блоке */
+    .text-block:nth-of-type(2) p:nth-of-type(2)::first-letter {
+        font-size: 3.5rem;
+        font-weight: 600;
+        float: left;
+        line-height: 0.8;
+        padding-right: 0.5rem;
+        padding-top: 0.3rem;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Drop cap для ТРЕТЬЕГО абзаца во втором блоке */
+    .text-block:nth-of-type(2) p:nth-of-type(3)::first-letter {
+        font-size: 3.5rem;
+        font-weight: 600;
+        float: left;
+        line-height: 0.8;
+        padding-right: 0.5rem;
+        padding-top: 0.3rem;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .divider {
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+        margin: 2rem auto;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(255,255,255,0.3);
+    }
+
+    .quote-mark {
+        font-size: 3rem;
+        opacity: 0.4;
+        line-height: 0.5;
+        display: block;
+        margin-bottom: 1rem;
+        font-weight: 300;
+    }
+
+    .section-spacer {
+        height: 2rem;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
         #lottie-container {
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 2rem;
+            width: 220px;
+            height: 220px;
         }
-
+        #lottie-container-clover {
+            width: 200px;
+            height: 200px;
+        }
         .fallback-emoji {
-            font-size: 200px;
-            line-height: 1;
-            display: none;
+            font-size: 140px;
         }
+        .text-block {
+            padding: 2rem 2rem;
+        }
+        .text-block p {
+            font-size: 1.05rem;
+            text-align: left;
+        }
+        .text-block:first-of-type p:first-of-type::first-letter,
+        .text-block:first-of-type p:nth-of-type(2)::first-letter,
+        .text-block:nth-of-type(2) p:first-of-type::first-letter,
+        .text-block:nth-of-type(2) p:nth-of-type(2)::first-letter,
+        .text-block:nth-of-type(2) p:nth-of-type(3)::first-letter {
+            font-size: 3rem;
+        }
+    }
 
-        h1 {
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+    @media (max-width: 480px) {
+        body {
+            padding: 1rem;
         }
-
-        p {
-            color: rgba(255,255,255,0.9);
-            font-size: 1.1rem;
+        #lottie-container {
+            width: 180px;
+            height: 180px;
         }
-
-        @media (max-width: 600px) {
-            #lottie-container {
-                width: 200px;
-                height: 200px;
-            }
-            .fallback-emoji {
-                font-size: 150px;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
+        #lottie-container-clover {
+            width: 160px;
+            height: 160px;
         }
-    </style>
+        .text-block {
+            padding: 1.5rem 1.5rem;
+            border-radius: 16px;
+        }
+        .text-block p {
+            font-size: 1rem;
+        }
+        .text-block:first-of-type p:first-of-type::first-letter,
+        .text-block:first-of-type p:nth-of-type(2)::first-letter,
+        .text-block:nth-of-type(2) p:first-of-type::first-letter,
+        .text-block:nth-of-type(2) p:nth-of-type(2)::first-letter,
+        .text-block:nth-of-type(2) p:nth-of-type(3)::first-letter {
+            font-size: 2.5rem;
+        }
+    }
+</style>
 </head>
 <body>
     <div class="container">
+        <!-- ПЕРВЫЙ БЛОК: Мышеловка -->
         <div id="lottie-container">
             <div class="fallback-emoji">🪤</div>
         </div>
 
+        <!-- Первый текстовый блок -->
+        <div class="text-block">
+            <span class="quote-mark">"</span>
+            <p>
+                Every step took him deeper into buildings filled with clerks and secretaries who seemed neither to understand nor to question what they were doing. In each room he asked the same basic questions — Why? What is this charge? How can this be justified? — but all he received were contradictory answers or silences. Doors led to offices, staircases to rooms with identical carpets and identical lamps. Even when there were windows, they looked out on walls instead of skies. Gradually K. felt as if he were walking through a physical maze that mirrored his own confusion. No matter where he went, no matter whom he spoke to, he felt he was moving in circles, never closer to truth and always more deeply trapped. His certainty of innocence, which had once given him strength, now seemed like a cruel joke, for the system to which he was subjected operated on rules he did not know and could never learn.
+            </p>
+            <div class="divider"></div>
+            <p>
+                In the stillness between each interview, K. felt his hope fade, as though the labyrinth had begun to swallow his own certainty, leaving behind a hollow echo of fear and resignation.
+            </p>
+        </div>
+
+        <!-- ВТОРОЙ БЛОК: Клевер -->
+        <div id="lottie-container-clover">
+            <div class="fallback-emoji">🍀</div>
+        </div>
+
+        <!-- Второй текстовый блок -->
+        <div class="text-block">
+            <p>
+                The town seemed ordinary in the early morning light, its streets unchanged, its walls the same ochre color they had worn for decades. But once the gates were closed and the disease was announced, every avenue turned into a corridor of uncertainty. People walked from street to street, searching for answers in shops that were shuttered or in squares that echoed emptiness. At first they believed that news or authority would provide clarity, but each proclamation, each bulletin nailed to a notice board only raised more questions than it answered.
+            </p>
+            <div class="divider"></div>
+            <p>
+                Men and women spoke of wards and cures as if they were lost explorers trying to find an exit from a maze, yet every entrance to help led instead to a dead end of waiting rooms, closed doors, and weary faces. No remedy arrived. No messenger brought good tidings. Days bled into nights with no sense of sequence — clocks ticked, yet time seemed frozen, as if the sun itself were bewildered by the grid of streets and alleys that refused to follow familiar paths.
+            </p>
+            <div class="divider"></div>
+            <p>
+                And so the sufferers moved like shadows through twilight lanes, feeling at every turn that they were approaching hope, only to find that the promise dissolved into silence. In this town‑labyrinth, the walls were not brick and mortar but the indifference of fate, weaving corridors that closed on every side and offered no exit, no meaning, no solace for the mind that insisted on understanding.
+            </p>
+        </div>
+
+        <div class="section-spacer"></div>
     </div>
 
     <script>
-        // Try to load Lottie animation
+        // Загрузка ПЕРВОЙ Lottie-анимации (мышеловка)
         try {
-            const animation = lottie.loadAnimation({
+            const animation1 = lottie.loadAnimation({
                 container: document.getElementById('lottie-container'),
                 renderer: 'svg',
                 loop: true,
@@ -86,14 +308,30 @@
                 path: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1faa4/lottie.json'
             });
 
-            animation.addEventListener('error', function() {
-                // If Lottie fails, show fallback emoji
+            animation1.addEventListener('error', function() {
                 document.getElementById('lottie-container').querySelector('.fallback-emoji').style.display = 'block';
                 document.querySelector('#lottie-container > svg')?.remove();
             });
         } catch (e) {
-            // Fallback to static emoji
             document.getElementById('lottie-container').querySelector('.fallback-emoji').style.display = 'block';
+        }
+
+        // Загрузка ВТОРОЙ Lottie-анимации (клевер)
+        try {
+            const animation2 = lottie.loadAnimation({
+                container: document.getElementById('lottie-container-clover'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f340/lottie.json'
+            });
+
+            animation2.addEventListener('error', function() {
+                document.getElementById('lottie-container-clover').querySelector('.fallback-emoji').style.display = 'block';
+                document.querySelector('#lottie-container-clover > svg')?.remove();
+            });
+        } catch (e) {
+            document.getElementById('lottie-container-clover').querySelector('.fallback-emoji').style.display = 'block';
         }
     </script>
 </body>
